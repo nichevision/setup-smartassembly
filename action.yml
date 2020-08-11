@@ -1,0 +1,16 @@
+name: 'Setup Red Gate SmartAssembly.'
+author: 'tfaris'
+inputs:
+  connectionstring:
+    description: 'SQL Server connection string for your SmartAssembly database.'
+    required: true
+  db-server:
+    description: 'Server hostname/ip that hosts the SQL Server SmartAssembly database.'
+    required: true
+  serial-number:
+    description: 'SmartAssembly serial number.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+  post: 'dist/index.js'
