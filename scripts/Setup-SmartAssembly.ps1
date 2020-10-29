@@ -36,4 +36,4 @@ SmartAssembly.com /settings /dbType="SQLServer" /dbConn="$ConnectionString" /dbS
 
 # Github Actions syntax for modifying the system path
 # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#adding-a-system-path
-Write-Host "::add-path::$saInstallLocation"
+Write-Host "$saInstallLocation" | Out-File $env:GITHUB_PATH -Encoding UTF8 -Append
