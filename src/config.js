@@ -21,7 +21,7 @@ module.exports = {
         cfg.db_server = core.getInput("db-server");
         cfg.serial_number = core.getInput("serial-number");
         cfg.version = core.getInput("version");
-        if (cfg.version === null) {
+        if (!cfg.version || cfg.version === "") {
             cfg.version = smartAssemblyDefaultVersion;
         }
         return cfg;
