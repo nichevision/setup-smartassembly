@@ -56,7 +56,8 @@ async function setup(config)
         {
             SerialNumber: config.serial_number,
             ConnectionString: config.connection_string,
-            DbServer: config.db_server
+            DbServer: config.db_server,
+            Version: config.version
         }
     );
     core.exportVariable(SA_VAR, "1");

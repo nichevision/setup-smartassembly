@@ -10,6 +10,9 @@ inputs:
   serial-number:
     description: 'SmartAssembly serial number.'
     required: true
+  version:
+    description: 'Optional version of SmartAssembly to install. Must be available on nuget feed.'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'

@@ -19,32 +19,7 @@ steps
         connectionstring: 'Data Source=${{ secrets.SMARTASSEMBLY_DATABASE_HOST }};Initial Catalog=${{ secrets.SMARTASSEMBLY_DATABASE_NAME }};uid=${{ secrets.SMARTASSEMBLY_DATABASE_USER }};password=${{ secrets.SMARTASSEMBLY_DATABASE_PASS }};'
         db-server: ${{ secrets.SMARTASSEMBLY_DATABASE_HOST }}
         serial-number: ${{ secrets.SMARTASSEMBLY_SERIAL_NUMBER }}
-
-    - shell: powershell
-      run: |
-        SmartAssembly.com /build <path_to_saproj>
-```
-
-### Setup nuget and authenticate fileshare access for saving map files:
-```yaml
-steps
-    - uses: nuget/setup-nuget@v1
-
-    - name: Setup fileshare
-      shell: powershell
-      env:
-        FILESHARE_HOST: ${{ secrets.FILESHARE_HOST }}
-        FILESHARE_USER: ${{ secrets.FILESHARE_USER }}
-        FILESHARE_PASS: ${{ secrets.FILESHARE_PASS }}
-        FILESHARE_NAME: ${{ secrets.FILESHARE_NAME }}
-      run: |
-        cmdkey /add:"$env:FILESHARE_HOST" /user:"$env:FILESHARE_USER" /pass:"$env:FILESHARE_PASS"
-
-    - uses: nichevision/setup-smartassembly@v1
-      with:
-        connectionstring: 'Data Source=${{ secrets.SMARTASSEMBLY_DATABASE_HOST }};Initial Catalog=${{ secrets.SMARTASSEMBLY_DATABASE_NAME }};uid=${{ secrets.SMARTASSEMBLY_DATABASE_USER }};password=${{ secrets.SMARTASSEMBLY_DATABASE_PASS }};'
-        db-server: ${{ secrets.SMARTASSEMBLY_DATABASE_HOST }}
-        serial-number: ${{ secrets.SMARTASSEMBLY_SERIAL_NUMBER }}
+        version: '7.5.2.4508'
 
     - shell: powershell
       run: |

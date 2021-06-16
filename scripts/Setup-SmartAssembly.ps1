@@ -7,12 +7,31 @@ param(
     [string] $ConnectionString,
 
     [Parameter(Mandatory=$True)]
-    [string] $DbServer
+    [string] $DbServer,
+
+    [Parameter()]
+    [string] $Version
 )
 
 Write-Verbose "Installing SmartAssembly..."
 
-nuget.exe install RedGate.SmartAssembly.Installer /OutputDirectory .\
+$NugetArgs = [System.Collections.ArrayList] @(
+    "install";
+    "RedGate.SmartAssembly.Installer";
+    "-OutputDirectory";
+    ".\";
+)
+
+if ($Version) {
+    $NugetArgs.Add("-Version") | Out-Null
+    $NugetArgs.Add("$Version") | Out-Null
+}
+
+nuget.exe @NugetArgs
+
+if (!$?) {
+    throw "Failed to install RedGate SmartAssembly with arguments: $NugetArgs"
+}
 
 $saExtractPath = ".\RedGate.SmartAssembly.Installer*\tools\"
 $saInstallLocation = ".\tools\SA\"

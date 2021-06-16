@@ -1637,6 +1637,7 @@ module.exports = require("path");
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
+const smartAssemblyDefaultVersion = '7.5.2.4508';
 
 class Config {
     constructor()
@@ -1644,6 +1645,7 @@ class Config {
         this.connection_string = '';
         this.db_server = '';
         this.serial_number = '';
+        this.version = smartAssemblyDefaultVersion;
     }
 }
 
@@ -1656,6 +1658,10 @@ module.exports = {
         cfg.connection_string = core.getInput("connectionstring");
         cfg.db_server = core.getInput("db-server");
         cfg.serial_number = core.getInput("serial-number");
+        cfg.version = core.getInput("version");
+        if (cfg.version === null) {
+            cfg.version = smartAssemblyDefaultVersion;
+        }
         return cfg;
     }
 }
@@ -1933,7 +1939,8 @@ async function setup(config)
         {
             SerialNumber: config.serial_number,
             ConnectionString: config.connection_string,
-            DbServer: config.db_server
+            DbServer: config.db_server,
+            Version: config.version
         }
     );
     core.exportVariable(SA_VAR, "1");
