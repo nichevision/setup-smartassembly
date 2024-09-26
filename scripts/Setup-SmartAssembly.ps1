@@ -33,17 +33,27 @@ if (!$?) {
     throw "Failed to install RedGate SmartAssembly with arguments: $NugetArgs"
 }
 
-$saExtractPath = ".\RedGate.SmartAssembly.Installer*\tools\"
+if ($Version) {
+    $saExtractPath = ".\RedGate.SmartAssembly.Installer.$Version\tools"    
+}
+else {
+    $saExtractPath = ".\RedGate.SmartAssembly.Installer*\tools"
+}
 $saInstallLocation = ".\tools\SA\"
 if (!(Test-Path $saInstallLocation)) {
     New-Item -ItemType Directory $saInstallLocation
 }
 $saInstallLocation = (Get-Item $saInstallLocation).FullName
 
-$msiPath = (Get-ChildItem "$saExtractPath\SmartAssembly_*_x64.msi").FullName
+if ($Version) {
+    $msiPath = (Get-ChildItem "$saExtractPath\SmartAssembly_$($Version)_x64.msi").FullName
+}
+else {
+    $msiPath = (Get-ChildItem "$saExtractPath\SmartAssembly_*_x64.msi").FullName
+}
 
 Write-Verbose "Installing SmartAssembly from $msiPath into $saInstallLocation"
-$p = Start-Process -FilePath msiexec -Args "/i `"$msiPath`" /qn INSTALLDIR=`"$saInstallLocation`" RG_LICENSE=`"$SerialNumber`" RG_WARNING=`"Ignore`" REBOOT=`"ReallySuppress`" RG_I=`"Red Gate Software Ltd.`"" -Wait -Verbose -PassThru
+$p = Start-Process -FilePath msiexec -Args "/i `"$msiPath`" INSTALLDIR=`"$saInstallLocation`" RG_LICENSE=`"$SerialNumber`" RG_WARNING=`"Ignore`" REBOOT=`"ReallySuppress`" RG_I=`"Red Gate Software Ltd.`"" -Wait -Verbose -PassThru
 
 if ($p.ExitCode -ne 0) {
     throw "SmartAssembly installation failed. Installer exited with code: $($p.ExitCode)"
